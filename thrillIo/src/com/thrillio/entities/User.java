@@ -10,6 +10,7 @@ public class User {
 	private int gender;
 	private String userType;
 
+	 
 	public long getId() {
 		return id;
 	}
