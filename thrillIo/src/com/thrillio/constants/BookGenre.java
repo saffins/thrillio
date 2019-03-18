@@ -13,6 +13,7 @@ public class BookGenre {
     public static final String RELIGION = "Religion";
     public static final String ROMANCE = "Romance";
     public static final String SELF_HELP = "Self help";
-    public static final String TECHNICAL = "Technical";    
+    public static final String TECHNICAL = "Technical";   
+    
 }
 

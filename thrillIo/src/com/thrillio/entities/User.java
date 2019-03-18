@@ -6,6 +6,7 @@ public class User {
 	public String toString() {
 		return "User [id=" + id + ", email=" + email + ", fName=" + fName + ", lName=" + lName + ", password="
 				+ password + ", gender=" + gender + ", userType=" + userType + "]";
+		
 	}
 
 	private long id;
@@ -16,7 +17,6 @@ public class User {
 	private int gender;
 	private String userType;
 
-	 
 	public long getId() {
 		return id;
 	}

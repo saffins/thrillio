@@ -1,12 +1,18 @@
 package com.thrillio.managers;
 
+import com.thrillio.dao.BookmarkDao;
 import com.thrillio.entities.Book;
+import com.thrillio.entities.Bookmark;
 import com.thrillio.entities.Movie;
+import com.thrillio.entities.User;
+import com.thrillio.entities.UserBookmark;
 import com.thrillio.entities.WebLink;
+import com.thrillio.partner.Shareable;
 
 public class BookmarkManager {
 
 	private static BookmarkManager instance = new BookmarkManager();
+	private static BookmarkDao bookmarkdao = new BookmarkDao();
 
 	private BookmarkManager() {
 
@@ -43,19 +49,61 @@ public class BookmarkManager {
 
 	}
 
-	public Book createBook(long id, String title, int publicationYear, String publisher, String[] authors, 
-			String genre,
+	public Book createBook(long id, String title, int publicationYear, String publisher, String[] authors, String genre,
 			double amazonRating) {
 		Book book = new Book();
 		book.setAmazonRating(amazonRating);
 		book.setAuthors(authors);
 		book.setGenre(genre);
 		book.setId(id);
-		
+
 		book.setPublicationYear(publicationYear);
 		book.setPublisher(publisher);
 		book.setTitle(title);
 		return book;
+	}
+
+	public void saveUserBookmark(User user, Bookmark bookmarks) {
+
+		UserBookmark userbookmark = new UserBookmark();
+		userbookmark.setUser(user);
+		userbookmark.setBookmark(bookmarks);
+
+		bookmarkdao.saveUserBookmark(userbookmark);
+
+	}
+
+	public Bookmark[][] getBookmarks() {
+		return bookmarkdao.getBookmarks();
+	}
+
+	public void setKidFriendlyStatus(User user, String kidFriendlyStatus, Bookmark bookmark) {
+		bookmark.setKidFriendlyStatus(kidFriendlyStatus);
+		bookmark.setKidFriendlyMarkedBy(user);
+		System.out.println(
+				"kid-friendly status: " + kidFriendlyStatus + " , MARKED BY:  " + user.getEmail() + " , " + bookmark);
+
+	}
+
+	public void share(User user, Bookmark bookmark) {
+
+		bookmark.setSharedBy(user);
+		if (!(bookmark instanceof Book || bookmark instanceof WebLink)) {
+			System.out.println("WARNING: Bookmark not shareable  , Title:  " + bookmark.getTitle());
+		} else {
+			System.out.println("Data to be Shared, Shared by: " + user.getEmail());
+
+			System.out.println(((Shareable) bookmark).getItemData());
+		}
+
+		/*
+		 * if (bookmark instanceof Book) {
+		 * 
+		 * System.out.println(((Book) bookmark).getItemData()); } else if
+		 * (bookmark instanceof WebLink) {
+		 * 
+		 * System.out.println(((WebLink) bookmark).getItemData()); }
+		 */
 	}
 
 }
