@@ -2,4 +2,9 @@
 1001	user1@semanticsquare.com	test	Sam		M	m	user
 1002	user2@semanticsquare.com	test	Anita	M	m	editor
 1003	user3@semanticsquare.com	test	Sara	M	f	editor
-1004	user4@semanticsquare.com	test	Dheeru	M	m	chiefeditor    	
+1004	user4@semanticsquare.com	test	Dheeru	M	m	chiefeditor
+1005	user5@semanticsquare.com	test	john	M	m	user	    	
+1006	user6@semanticsquare.com	test	saffin	M	m	user
+1007	user7@semanticsquare.com	test	ravi	M	m	chiefeditor
+1008	user8@semanticsquare.com	test	shivna	M	m	user
+1009	user9@semanticsquare.com	test	krunal	M	m	editor

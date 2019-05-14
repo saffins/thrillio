@@ -3,19 +3,22 @@ package com.thrillio;
 import com.thrillio.entities.Bookmark;
 import com.thrillio.entities.User;
 import com.thrillio.partner.Shareable;
+
+import java.util.List;
+
 import com.thrillio.constants.KidFriendlyStatus;
 import com.thrillio.constants.UserType;
 import com.thrillio.controllers.*;
 
 public class View {
 
-	public static void browse(User user, Bookmark[][] bookmarks) {
+	public static void browse(User user, List<List<Bookmark>>  bookmarks) {
 
 		System.out.println("\n" + user.getEmail() + " is browsing items");
 
 		int bookmarkCount = 0;
 
-		for (Bookmark[] bookmarklist : bookmarks) {
+		for (List<Bookmark>  bookmarklist : bookmarks) {
 
 			for (Bookmark bookmark : bookmarklist) {
 

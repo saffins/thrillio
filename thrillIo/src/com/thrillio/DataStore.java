@@ -1,5 +1,12 @@
 package com.thrillio;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.thrillio.constants.Gender;
+import com.thrillio.entities.Book;
 import com.thrillio.entities.Bookmark;
 import com.thrillio.entities.User;
 import com.thrillio.entities.UserBookmark;
@@ -7,22 +14,17 @@ import com.thrillio.managers.BookmarkManager;
 import com.thrillio.managers.UserManager;
 import com.thrillio.utility.IOUtil;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
-import com.thrillio.constants.*;
-
 public class DataStore {
 
 	static final int USER_BOOKMARK_LIMIT = 5;
 	static final int BOOKMARK_COUNT_PER_TYPE = 5;
 	static final int BOOKMARK_TYPES_COUNT = 3;
 	private static final int TOTAL_USER_COUNT = 5;
-	private static User[] users = new User[TOTAL_USER_COUNT];
-	private static Bookmark[][] bookmarks = new Bookmark[BOOKMARK_TYPES_COUNT][BOOKMARK_COUNT_PER_TYPE];
-	private static UserBookmark[] userBookmarks = new UserBookmark[TOTAL_USER_COUNT * USER_BOOKMARK_LIMIT];
+	private static List<User> users = new ArrayList<>();
+	private static List<List<Bookmark>> bookmarks = new ArrayList<>();
+	private static List<UserBookmark> userBookmarks = new ArrayList<>();
 	
-	public static UserBookmark[] getUserBookmarks() {
+	public static List<UserBookmark> getUserBookmarks() {
 		return userBookmarks;
 	}
 
@@ -46,7 +48,7 @@ public class DataStore {
 		bookmarks[2][4] = BookmarkManager.getInstance().createBook(4000,"dreams",1854,"dreams Publications",new String[]{"Henry David","Thoreau"},	"action",4.3)	;
 */
 
-		String[] data = new String[BOOKMARK_COUNT_PER_TYPE];
+		List<String> data = new ArrayList<String>();
 		try {
 			IOUtil.readData(data, "I:\\thrillio-master\\thrillIo\\Book.txt");
 		} catch (FileNotFoundException e) {
@@ -57,17 +59,19 @@ public class DataStore {
 			e.printStackTrace();
 		}
 		
-		int colNum = 0;
+		 List<Bookmark> bookmarklist = new ArrayList<>();
 		
 		for(String row : data){
 			String[] values = row.split("\t");
 			
 			String[] authors = values[4].split(",");
 			
-		bookmarks[2][colNum] =	BookmarkManager.getInstance().createBook(Long.parseLong(values[0]), values[1], Integer.parseInt(values[2]),  values[3], authors, values[5], Double.parseDouble(values[6]));
-			colNum++;
+		Bookmark book =	BookmarkManager.getInstance().createBook(Long.parseLong(values[0]), values[1], Integer.parseInt(values[2]),  values[3], authors, values[5], Double.parseDouble(values[6]));
+		bookmarklist.add(book);
 			
 		}
+		
+		bookmarks.add(bookmarklist);
 		
 	}
 
@@ -87,7 +91,10 @@ public class DataStore {
 				Gender.MALE, UserType.CHIEF_EDITOR); */
 		
 		
-		String[] data = new String[TOTAL_USER_COUNT];
+	//	String[] data = new String[TOTAL_USER_COUNT];
+		
+		
+		List<String> data = new ArrayList<>();
 		
 		try {
 			IOUtil.readData(data, "I:\\thrillio-master\\thrillIo\\User.txt");
@@ -99,7 +106,7 @@ public class DataStore {
 			e.printStackTrace();
 		}
 		
-		int rowNum = 0;
+		 
 		
 		for(String row : data){
 			
@@ -113,8 +120,8 @@ public class DataStore {
 				gender = Gender.TRANSGENDER;
 			}
 			
-			users[rowNum] = UserManager.getInstance().createUser(Integer.parseInt(values[0]), values[1], values[2], values[3], values[4], gender, values[6]);
-			rowNum++;
+			User user = UserManager.getInstance().createUser(Integer.parseInt(values[0]), values[1], values[2], values[3], values[4], gender, values[6]);
+			 users.add(user);
 		}
 		
 
@@ -136,7 +143,7 @@ public class DataStore {
 		bookmarks[0][4] = BookmarkManager.getInstance().createWebLink(2004, "Virtual Hosting and Tomcat",
 				"http://tomcat.apache.org/tomcat-6.0-doc/virtual-hosting-howto.html", "http://tomcat.apache.org");*/
 		
-		String[] data = new String[BOOKMARK_COUNT_PER_TYPE];
+		List<String> data = new ArrayList<>();
 		
 		try {
 			IOUtil.readData(data, "I:\\thrillio-master\\thrillIo\\Web-Link.txt");
@@ -148,7 +155,7 @@ public class DataStore {
 			e.printStackTrace();
 		}
 		
-		int rowNum = 0;
+		List<Bookmark> bookmarksList = new ArrayList<>();
 		
 		for(String row : data){
 			
@@ -156,10 +163,11 @@ public class DataStore {
 		 
 			 
 			
-			bookmarks[0][rowNum++] = BookmarkManager.getInstance().createWebLink( Long.parseLong(values[0]) , values[1], values[2], values[3] );
-			
+			Bookmark book = BookmarkManager.getInstance().createWebLink( Long.parseLong(values[0]) , values[1], values[2], values[3] );
+			bookmarksList.add(book);
 		}
 		
+		bookmarks.add(bookmarksList);
 
 	}
 	
@@ -172,7 +180,7 @@ public class DataStore {
 		bookmarks[1][4] = BookmarkManager.getInstance().createMovie(3004,"invisible","",1941,new String[] {"Orson Welles","Joseph Cotten"}, new String[] {"Micheal thomas"},MovieGenre.CHILDREN_AND_FAMILY,8.5);
 */
 		
-		String[] data = new String[BOOKMARK_COUNT_PER_TYPE];
+		List<String> data = new ArrayList<>();
 		
 		try {
 			IOUtil.readData(data, "I:\\thrillio-master\\thrillIo\\Movie.txt");
@@ -181,7 +189,8 @@ public class DataStore {
 			e.printStackTrace();
 		}
 		
-		int colNum = 0;
+	 
+		List<Bookmark> bookmarksList = new ArrayList<>();
 		
 		for(String row : data){
 			
@@ -189,24 +198,27 @@ public class DataStore {
 			String[] cast = values[3].split(",");
 			String[] directors = values[4].split(",");
 			
-			bookmarks[1][colNum++] = BookmarkManager.getInstance().createMovie(Long.parseLong(values[0]), values[1], " " ,Integer.parseInt(values[2]),   cast, directors, values[5], Double.parseDouble(values[6]));
-				 
+			Bookmark book = BookmarkManager.getInstance().createMovie(Long.parseLong(values[0]), values[1], " " ,Integer.parseInt(values[2]),   cast, directors, values[5], Double.parseDouble(values[6]));
+			bookmarksList.add(book);
 		}
+		
+		bookmarks.add(bookmarksList);
+
 	 
 	}
 
-	public static Bookmark[][] getBookmarks() {
-		return bookmarks;
+	 
+	public static List<User> getUsers() {
+		return users;
 	}
 
-	public static User[] getUsers() {
-		return users;
+	public static List<List<Bookmark>> getBookmarks() {
+		return bookmarks;
 	}
 
 	public static void add(UserBookmark userBookmark) {
  
-		userBookmarks[bookmarkIndex]= userBookmark;
-		bookmarkIndex++;
+		userBookmarks.add(userBookmark);
 		
 	}
 	

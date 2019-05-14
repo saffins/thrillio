@@ -1,5 +1,7 @@
 package com.thrillio.managers;
 
+import java.util.List;
+
 import com.thrillio.dao.BookmarkDao;
 import com.thrillio.entities.Book;
 import com.thrillio.entities.Bookmark;
@@ -9,13 +11,19 @@ import com.thrillio.entities.UserBookmark;
 import com.thrillio.entities.WebLink;
 import com.thrillio.partner.Shareable;
 
-public class BookmarkManager {
 
+public  class BookmarkManager {
+
+	public static class john{
+		
+	}
 	private static BookmarkManager instance = new BookmarkManager();
 	private static BookmarkDao bookmarkdao = new BookmarkDao();
 
 	private BookmarkManager() {
-
+		
+		
+		
 	}
 
 	public static BookmarkManager getInstance() {
@@ -73,7 +81,7 @@ public class BookmarkManager {
 
 	}
 
-	public Bookmark[][] getBookmarks() {
+	public List<List<Bookmark>>  getBookmarks() {
 		return bookmarkdao.getBookmarks();
 	}
 

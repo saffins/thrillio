@@ -1,7 +1,7 @@
 package com.thrillio;
 
-import com.thrillio.dao.BookmarkDao;
-import com.thrillio.dao.UserDao;
+import java.util.List;
+
 import com.thrillio.entities.Bookmark;
 import com.thrillio.entities.User;
 import com.thrillio.managers.BookmarkManager;
@@ -14,18 +14,21 @@ public class Launch {
 	 * userdao = new UserDao();
 	 */
 
-	public static Bookmark[][] bookmarks;
+	public static List<List<Bookmark>>  bookmarks;
 
-	public static User[] users;
+	public static List<User> users;
 
 	public static void main(String[] args) {
 		 
 		System.out.println(Math.random());
 		System.out.println("loading data");
 		loadData();
-		start();
 		printUserData();
 		printBookmarkData();
+		
+		System.out.println("------------------------------------");
+		start();
+		
 	}
 
 	private static void loadData() {
@@ -41,7 +44,7 @@ public class Launch {
 	}
 
 	private static void printBookmarkData() {
-		for (Bookmark[] book : bookmarks) {
+		for (List<Bookmark> book : bookmarks) {
 
 			for (Bookmark boo : book) {
 				System.out.println("Available bookmarks " +boo);
